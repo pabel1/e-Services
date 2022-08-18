@@ -1,0 +1,124 @@
+
+.side-nav-open {
+    
+    height: 100%;
+    
+    position: fixed;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.3s;
+    background-color: #ffffff;
+    border-right: 1px solid rgba(0, 0, 0, 0.198);
+    scrollbar-color: #CCCCCC #F5F5F5;
+    scrollbar-width: thin;
+    box-shadow: 0 0 1px 0 #ffffff;
+}
+.side-nav-close {
+    padding-top: 70px;
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    overflow-x: hidden;
+    transition: 0.3s;
+    background-color: #ffffff;
+    border-right: 1px solid rgba(0,0,0,.075);
+    scrollbar-color: #CCCCCC #F5F5F5;
+    scrollbar-width: thin;
+}
+.side-nav-open::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+.side-nav-open::-webkit-scrollbar-track-piece  {
+    background-color: #F5F5F5;
+}
+.side-nav-open::-webkit-scrollbar-thumb:vertical {
+    height: 30px;
+    border-radius: 4px;
+    background: #CCCCCC;
+}
+.side-nav-close::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+.side-nav-close::-webkit-scrollbar-track-piece  {
+    background-color: #F5F5F5;
+}
+.side-nav-close::-webkit-scrollbar-thumb:vertical {
+    height: 30px;
+    border-radius: 4px;
+    background: #CCCCCC;
+}
+
+
+
+
+.content {
+    transition: 0.3s;
+    margin-top: 50px;
+    margin-left: 340px;
+    width:80%;
+    height: 80vh;
+}
+.content-expand {
+    margin-top: 80px;
+    transition: 0.3s;
+    margin-left: 0;
+    width: 100%;
+}
+
+
+
+.nav-logo {
+    width: auto;
+    height: 30px;
+}
+
+
+.side-bar-item{
+    display: inline-block;
+    padding: 12px 5px 12px 5px;
+    width: 100% !important;
+    display:flex;
+    align-items: center;
+}
+.side-bar-item:hover{
+    border-left: 4px solid #0052cc;
+    transition: 0.2s;
+    background-color: #326dc6f0;
+}
+.side-bar-item:hover .side-bar-item-icon {
+    color: #F3D9EC;
+}
+.side-bar-item:hover .side-bar-item-caption {
+    color: #F3D9EC;
+}
+.side-bar-item-active{
+    border-left: 4px solid #0052cc;
+    background-color:#0052cc90;
+    
+}
+.side-bar-item-active{
+    color:#F3D9EC!important;
+}
+.side-bar-item-icon{
+    font-size: 18px;
+    margin-left: 14px;
+    margin-right: 10px;
+    font-weight: 600;
+    color: #0052cc;
+}
+.side-bar-item-caption{
+    font-family: 'Poppins', sans-serif ;
+    font-size: 14px;
+    margin-left: 8px;
+    font-weight: 600;
+    color: #363B64;
+}
+.side-bar-item-active .side-bar-item-caption{
+    color:#F3D9EC;
+
+}
