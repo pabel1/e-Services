@@ -5,9 +5,9 @@ import "./Navbar.css";
 const Navbar = () => {
   return (
     <div className="navbar__bg ">
-      <div className=" border-b border-[#0052cce9] px-12  flex items-center justify-between">
+      <div className=" border-b shadow-lg border-[#0052cce9] px-12  flex items-center justify-between">
         <Link to="/">
-          <img className=" w-1/5" src={LogoImg} alt="" />
+          <img className=" p-4" src={LogoImg} alt="" />
         </Link>
         <nav className=" mr-8">
           <NavLink
