@@ -32,7 +32,7 @@ const Login = () => {
     }
     else if(newData.password && newData.email){
       await loginUser(newData);
-      SuccessToast("Registration Success!")
+      SuccessToast("LoginSuccess!")
         
       navigate("/dashboard");
     }
