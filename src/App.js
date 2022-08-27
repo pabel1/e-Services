@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./Components/Pages/Home";
 import Login from "./Components/Login/Login";
 import Registration from "./Components/Registration/Registration";
-// import DashBoard from "./Components/Pages/DashBoard";
+import DashBoard from "./Components/Pages/DashBoard";
 // import AllTask from "./Components/TaskManager/AllTask";
 // import NewTask from "./Components/TaskManager/NewTask";
 // import CreateTask from "./Components/TaskManager/CreateTask";
@@ -19,14 +19,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/dashboard" element={<DashBoard />}>
-          <Route index element={<AllTask />} />
+        <Route path="/dashboard" element={<DashBoard />}>
+          {/* <Route index element={<AllTask />} />
           <Route path="/all" element={<NewTask />} />
           <Route path="/create" element={<CreateTask />} />
           <Route path="/progress" element={<ProgressTask />} />
           <Route path="/completed" element={<CompletedTask />} />
-          <Route path="/canceled" element={<CencelTask />} />
-        </Route> */}
+          <Route path="/canceled" element={<CencelTask />} /> */}
+        </Route>
       </Routes>
     </div>
   );

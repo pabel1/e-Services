@@ -3,29 +3,28 @@ import cogoToast from "cogo-toast";
 const EmailRegx = /\S+@\S+\.\S+/;
 const MobileRegx = /(^(\+88|0088)?(01){1}[3456789]{1}(\d){8})$/;
 
-class FormHelper {
+// class FormHelper {
 
-    IsEmpty(value) {
+   export function IsEmpty(value) {
         return value.length === 0;
     }
-
-    IsMobile(value){
+    export function IsMobile(value){
         return MobileRegx.test(value);
     }
 
-    IsEmail(value) {
+    export function IsNotEmail(value) {
         return !EmailRegx.test(value);
     }
 
-    ErrorToast(msg) {
+    export function ErrorToast(msg) {
         cogoToast.error(msg, { position: "bottom-center" });
     }
-    SuccessToast(msg) {
+    export function SuccessToast(msg) {
         cogoToast.success(msg, { position: "bottom-center" });
     }
 
 
-    getBase64(file) {
+    export function getBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -35,13 +34,13 @@ class FormHelper {
     }
 
 
-}
+// }
 
-export const {
-    IsEmpty,
-    IsMobile,
-    IsEmail,
-    ErrorToast,
-    getBase64,
-    SuccessToast
-} = new FormHelper();
+// export const {
+//     IsEmpty,
+//     IsMobile,
+//     IsNotEmail,
+//     ErrorToast,
+//     getBase64,
+//     SuccessToast
+// } = new FormHelper();

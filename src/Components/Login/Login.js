@@ -1,10 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../NavBar/Navbar";
 import Footer from "../Footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import login_illus from '../../Assests/images/login.png'
+import {
+  IsEmpty,
+  IsNotEmail,
+  ErrorToast,
+  // getBase64,
+  SuccessToast,
+} from "../HelperTools/RegivalidationTools";
+import { useLoginUserMutation } from "../../Redux/State/UserApiRequest/ApiRequest";
 
 const Login = () => {
+  const [loginUser]=useLoginUserMutation();
+
+  const navigate= useNavigate();
+
+  const [newData,setNewData] =useState({
+    email:" ",
+    password:" ",
+  })
+   const loginSubmit=async (e)=>{
+    e.preventDefault();
+    if(IsEmpty(newData.password)){
+      ErrorToast("Password Required!")
+    }
+    else if(IsNotEmail(newData.email)){
+      ErrorToast("Valid Email Required!")
+
+    }
+    else if(newData.password && newData.email){
+      await loginUser(newData);
+      SuccessToast("Registration Success!")
+        
+      navigate("/dashboard");
+    }
+   }
+
   return (
     <>
       <Navbar />
@@ -12,7 +45,10 @@ const Login = () => {
         <div className="w-[30%] bg-transparent">
           <img className='  text-transparent' src={login_illus} alt="" />
         </div>
-        <form className=" bg-transparent p-12 my-24 rounded-lg w-[50%]  items-center justify-center">
+        <form className=" bg-transparent p-12 my-24 rounded-lg w-[50%] 
+         items-center justify-center"
+         onSubmit={loginSubmit}
+         >
           <h1 className="text-3xl text-left font-bold text-[#0052cc]">
             Welcome Back!
           </h1>
@@ -23,6 +59,11 @@ const Login = () => {
               type="text"
               name="email"
               placeholder="Enter Your Email"
+              onChange={(e)=>setNewData({
+                ...newData,
+                email: e.target.value,
+              })
+              }
             />
 
             <input
@@ -31,6 +72,10 @@ const Login = () => {
               name="password"
               id=""
               placeholder="Password"
+              onChange={(e)=>setNewData({
+                ...newData,
+                password: e.target.value
+              })}
             />
           </div>
           <input

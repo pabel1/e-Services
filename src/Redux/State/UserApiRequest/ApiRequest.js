@@ -18,9 +18,20 @@ export const  apiRequest =createApi({
                 }
             }),
         }),
+        loginUser:builder.mutation({
+            query:(newData)=>({
+                url:"user/login",
+                method: 'POST',
+                body:newData,
+                headers:{
+                    "Content-type":"application/json;charset=UTF-8"
+                }
+            }),
+        }),
     })
+    
 
 
 });
 
-export const {useCreateUserMutation}=apiRequest;
+export const {useCreateUserMutation ,useLoginUserMutation}=apiRequest;

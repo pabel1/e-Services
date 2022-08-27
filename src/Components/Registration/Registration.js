@@ -8,10 +8,10 @@ import illus from "../../Assests/images/My project-1 (1).png";
 
 import {
   IsEmpty,
-  IsEmail,
+  IsNotEmail,
   ErrorToast,
   // getBase64,
-  // SuccessToast,
+  SuccessToast,
 } from "../HelperTools/RegivalidationTools";
 import { useCreateUserMutation } from "../../Redux/State/UserApiRequest/ApiRequest";
 const Registration = () => {
@@ -30,33 +30,36 @@ const Registration = () => {
   const [createUser, resInfo] = useCreateUserMutation();
 
 
-
-
-  console.log(newData);
   console.log(resInfo);
   const navigate = useNavigate();
 
-    const handleSubmit=(e)=>{
+    const handleSubmit=async (e)=>{
       e.preventDefault();
 
-      if(IsEmail(newData.email)){
-        ErrorToast("Valid  Email Required!")
-      }
-      else if(IsEmpty(newData.firstname)){
+      
+      if(IsEmpty(newData.firstname)){
         ErrorToast("FirstName Required!")
+        
       }
+    
       else if(IsEmpty(newData.lastname)){
         ErrorToast("LastName  Email Required!")
+      }
+      else if(IsNotEmail(newData.email)){
+        ErrorToast("Valid  Email Required!")
       }
       else if(IsEmpty(newData.password)){
         ErrorToast("Password  Email Required!")
       }
-      else if(IsEmail(newData.password)){
-        ErrorToast("Valid  Email Required!")
-      }
-      else{
-        createUser(newData);
+      
+      else {
+       await createUser(newData);
+      
+          SuccessToast("Registration Success!")
+        
           navigate("/login")
+        
+        
       }
 
    }
