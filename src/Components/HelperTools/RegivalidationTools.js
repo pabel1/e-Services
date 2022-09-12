@@ -1,17 +1,16 @@
 import cogoToast from "cogo-toast";
 
 const EmailRegx = /\S+@\S+\.\S+/;
-const MobileRegx = /(^(\+88|0088)?(01){1}[3456789]{1}(\d){8})$/;
+
 
 // class FormHelper {
 
    export function IsEmpty(value) {
-        return value.length === 0;
+    if(value.length===0 ){
+        return true;
     }
-    export function IsMobile(value){
-        return MobileRegx.test(value);
+       
     }
-
     export function IsNotEmail(value) {
         return !EmailRegx.test(value);
     }

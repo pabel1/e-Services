@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../NavBar/Navbar";
 import Footer from "../Footer/Footer";
-import './Registration.css'
+import "./Registration.css";
 import illus from "../../Assests/images/My project-1 (1).png";
-// import {RegistrationRequest} from "../APIRequest/ApiRequest"
+
 
 import {
   IsEmpty,
@@ -14,55 +14,62 @@ import {
   SuccessToast,
 } from "../HelperTools/RegivalidationTools";
 import { useCreateUserMutation } from "../../Redux/State/UserApiRequest/ApiRequest";
+import { useDispatch } from "react-redux";
+import { showLoader } from "../../Redux/State/SettingSlice";
 const Registration = () => {
-  const [newData,setNewData] = useState({
-    firstname:" ",
-    lastname:" ",
-    email:" ",
-    password:" ",
-
+  const [newData, setNewData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
   });
-  
+
   // const [lastname, setLastName] = useState();
   // const [email, setEmail] = useState();
   // const [password, setPassword] = useState();
 
   const [createUser, resInfo] = useCreateUserMutation();
 
-
-  console.log(resInfo);
   const navigate = useNavigate();
+  const dispatch= useDispatch();
 
-    const handleSubmit=async (e)=>{
-      e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      
-      if(IsEmpty(newData.firstname)){
-        ErrorToast("FirstName Required!")
-        
-      }
-    
-      else if(IsEmpty(newData.lastname)){
-        ErrorToast("LastName  Email Required!")
-      }
-      else if(IsNotEmail(newData.email)){
-        ErrorToast("Valid  Email Required!")
-      }
-      else if(IsEmpty(newData.password)){
-        ErrorToast("Password  Email Required!")
-      }
-      
-      else {
-       await createUser(newData);
-      
-          SuccessToast("Registration Success!")
-        
-          navigate("/login")
-        
-        
-      }
+   
+    if (newData.firstname.length === 0) {
+      ErrorToast("FirstName Required!");
+    }
 
-   }
+    else if (newData.lastname.length === 0) {
+      ErrorToast("LastName Required!");
+    }
+    else if (IsNotEmail(newData.email)) {
+      ErrorToast("Valid  Email Required!");
+    }
+    else if (IsEmpty(newData.password)) {
+      ErrorToast("Password  Required!");
+    } else if (
+      newData.firstname &&
+      newData.lastname &&
+      newData.email &&
+      newData.password
+    ) {
+      const res = await createUser(newData);
+      if(resInfo.isLoading){
+        dispatch(showLoader());
+      }
+      console.log(res);
+      if (res.data) {
+        SuccessToast("Registration Success!");
+        
+        navigate("/login");
+      } else if (!res.data) {
+        document.getElementById("formId").reset();
+        ErrorToast("Email Already Exist!");
+      }
+    }
+  };
 
   return (
     <>
@@ -74,6 +81,7 @@ const Registration = () => {
         <form
           className=" bg-transparent p-12 my-24 rounded-lg w-[50%]  items-center justify-center"
           onSubmit={handleSubmit}
+          id="formId"
         >
           <h1 className="text-3xl text-left font-bold text-[#0052cc]">
             Create Account
@@ -88,10 +96,12 @@ const Registration = () => {
               name="firstName"
               id=""
               placeholder="Enter Your First Name"
-              onChange={(e) =>setNewData({
-                ...newData,
-                firstName:e.target.value,
-              })}
+              onChange={(e) =>
+                setNewData({
+                  ...newData,
+                  firstname: e.target.value,
+                })
+              }
             />
             <input
               className=" py-3 px-5 border-none w-full rounded-md focus:outline-none mt-4"
@@ -99,10 +109,12 @@ const Registration = () => {
               name="lastName"
               id=""
               placeholder="Enter Your Last Name"
-              onChange={(e) =>setNewData({
-                ...newData,
-                lastname:e.target.value,
-              })}
+              onChange={(e) =>
+                setNewData({
+                  ...newData,
+                  lastname: e.target.value,
+                })
+              }
             />
 
             <input
@@ -110,10 +122,12 @@ const Registration = () => {
               type="text"
               name="email"
               placeholder="Enter Your Email"
-              onChange={(e) =>setNewData({
-                ...newData,
-                email:e.target.value,
-              })}
+              onChange={(e) =>
+                setNewData({
+                  ...newData,
+                  email: e.target.value,
+                })
+              }
             />
 
             <input
@@ -122,17 +136,18 @@ const Registration = () => {
               name="password"
               id=""
               placeholder="Password"
-              onChange={(e) =>setNewData({
-                ...newData,
-                password:e.target.value,
-              })}
+              onChange={(e) =>
+                setNewData({
+                  ...newData,
+                  password: e.target.value,
+                })
+              }
             />
           </div>
           <button
             // type="submit"
             className="singin__btn my-5 w-[100%] px-5 py-3 rounded text-md text-white hover:bg-[#0052cccc] bg-[#0052cc] cursor-pointer"
             value="Create Account"
-            
           >
             Create Account
           </button>

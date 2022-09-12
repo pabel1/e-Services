@@ -1,7 +1,7 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-const BaseURL="https://task-management-api-demo.herokuapp.com"
+const BaseURL="https://task-management-api-demo.herokuapp.com/"
 export const  apiRequest =createApi({
     reducerPath:"apiRequest",
     baseQuery:fetchBaseQuery({

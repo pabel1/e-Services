@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../NavBar/Navbar";
 import Footer from "../Footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
-import login_illus from '../../Assests/images/login.png'
+import login_illus from "../../Assests/images/login.png";
 import {
   IsEmpty,
   IsNotEmail,
@@ -11,44 +11,62 @@ import {
   SuccessToast,
 } from "../HelperTools/RegivalidationTools";
 import { useLoginUserMutation } from "../../Redux/State/UserApiRequest/ApiRequest";
+import { getToken, storeToken } from "../HelperTools/userToken";
+import { useDispatch } from "react-redux";
+import { setUserToken } from "../../Redux/State/authSlice";
 
 const Login = () => {
-  const [loginUser]=useLoginUserMutation();
+  const [loginUser] = useLoginUserMutation();
+  
+  const navigate = useNavigate();
 
-  const navigate= useNavigate();
-
-  const [newData,setNewData] =useState({
-    email:" ",
-    password:" ",
-  })
-   const loginSubmit=async (e)=>{
+  const [newData, setNewData] = useState({
+    email: "",
+    password: "",
+  });
+  const loginSubmit = async (e) => {
     e.preventDefault();
-    if(IsEmpty(newData.password)){
-      ErrorToast("Password Required!")
-    }
-    else if(IsNotEmail(newData.email)){
-      ErrorToast("Valid Email Required!")
 
+    if (IsEmpty(newData.password)) {
+      ErrorToast("Password Required!");
+    } else if (IsNotEmail(newData.email)) {
+      ErrorToast("Valid Email Required!");
+    } else if (newData.password && newData.email) {
+      const res = await loginUser(newData);
+      if (res.data) {
+        SuccessToast("LoginSuccess!");
+        storeToken(res.data.access_token)
+        navigate("/dashboard");
+      }
+      else if(!res.data){
+        document.getElementById("formId").reset();
+        ErrorToast("Login Failed!  Enter  Correct  Email or Password")
+      }
     }
-    else if(newData.password && newData.email){
-      await loginUser(newData);
-      SuccessToast("LoginSuccess!")
-        
-      navigate("/dashboard");
-    }
-   }
+  };
+
+  // token set in redux store 
+  const dispatch= useDispatch();
+  const token = getToken('token');
+  useEffect(() => {
+    dispatch(setUserToken({token:token}))
+    
+  }, [dispatch,token])
+  
 
   return (
     <>
       <Navbar />
       <div className="registration__bg flex items-center justify-center gap-14">
         <div className="w-[30%] bg-transparent">
-          <img className='  text-transparent' src={login_illus} alt="" />
+          <img className="  text-transparent" src={login_illus} alt="" />
         </div>
-        <form className=" bg-transparent p-12 my-24 rounded-lg w-[50%] 
+        <form
+          className=" bg-transparent p-12 my-24 rounded-lg w-[50%] 
          items-center justify-center"
-         onSubmit={loginSubmit}
-         >
+         id="formId"
+          onSubmit={loginSubmit}
+        >
           <h1 className="text-3xl text-left font-bold text-[#0052cc]">
             Welcome Back!
           </h1>
@@ -59,10 +77,11 @@ const Login = () => {
               type="text"
               name="email"
               placeholder="Enter Your Email"
-              onChange={(e)=>setNewData({
-                ...newData,
-                email: e.target.value,
-              })
+              onChange={(e) =>
+                setNewData({
+                  ...newData,
+                  email: e.target.value,
+                })
               }
             />
 
@@ -72,10 +91,12 @@ const Login = () => {
               name="password"
               id=""
               placeholder="Password"
-              onChange={(e)=>setNewData({
-                ...newData,
-                password: e.target.value
-              })}
+              onChange={(e) =>
+                setNewData({
+                  ...newData,
+                  password: e.target.value,
+                })
+              }
             />
           </div>
           <input
