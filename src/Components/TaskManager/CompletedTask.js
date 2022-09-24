@@ -1,7 +1,13 @@
 import React from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+import { getToken } from "../HelperTools/userToken";
+import { useGetAllTaskQuery } from "../../Redux/State/UserApiRequest/ApiRequest";
 const CompletedTask = () => {
+  const token = getToken();
+  const params = "complete";
+  const res = useGetAllTaskQuery({ params, token });
+  console.log(res.data);
   return (
     <div>
       <div className=" flex items-center justify-between p-3">
@@ -27,31 +33,35 @@ const CompletedTask = () => {
       <div>
         <div>
           <div className=" grid grid-cols-3 p-3">
-            <div
-              className=" bg-[#ffffff] shadow-md h-40 flex flex-col justify-center pl-10 
+            {res.data &&
+              res.data.data.map((item, i) => (
+                <div
+                  key={i}
+                  className=" bg-[#ffffff] shadow-md h-40 flex flex-col justify-center pl-10 
          rounded-lg gap-5 "
-            >
-              <h1 className=" font-semibold text-[20px] text-[#0052cc] tracking-widest">
-                title
-              </h1>
-              <h3 className=" font-normal text-[16px] tracking-wide">
-                description
-              </h3>
-              <div className=" flex items-center justify-around mt-4">
-                <button>
-                  <BiEditAlt />
-                </button>
-                <button>
-                  <AiFillDelete />
-                </button>
-                <button
-                  className=" px-3   bg-[#0052cc] text-white 
-         font-normal rounded-lg tracking-wider hover:bg-[#0a397e]"
                 >
-                  Status
-                </button>
-              </div>
-            </div>
+                  <h1 className=" font-semibold text-[20px] text-[#0052cc] tracking-widest">
+                    {item.title}
+                  </h1>
+                  <h3 className=" font-normal text-[16px] tracking-wide">
+                    {item.description}
+                  </h3>
+                  <div className=" flex items-center justify-around mt-4">
+                    <button>
+                      <BiEditAlt />
+                    </button>
+                    <button>
+                      <AiFillDelete />
+                    </button>
+                    <button
+                      className=" px-3  py-1 bg-[#0052cc] text-white 
+         font-normal rounded-lg tracking-wider hover:bg-[#0a397e]"
+                    >
+                       {item.status}
+                    </button>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>

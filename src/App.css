@@ -10,3 +10,15 @@
       scroll-behavior: smooth;
   }
 }
+
+/*  */
+.content {
+  transition: 0.3s;
+  height: 100%;
+}
+.content-expand {
+  margin-top: 80px;
+  transition: 0.3s;
+  margin-left: 0;
+  width: 100%;
+}
