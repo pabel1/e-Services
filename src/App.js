@@ -13,6 +13,10 @@ import ProgressTask from "./Components/TaskManager/ProgressTask";
 import CompletedTask from "./Components/TaskManager/CompletedTask";
 import CencelTask from "./Components/TaskManager/CencelTask";
 import DashLayout from "./Components/Dashboard/DashLayout";
+import UpdateProfile from "./Components/updateProfile/UpdateProfile";
+import SendOtp from "./Components/OTPVerification.js/SendOtp";
+import OTPInput from "./Components/OTPVerification.js/OTPInput";
+import RecoverPassword from "./Components/OTPVerification.js/RecoverPassword";
 
 
 function App() {
@@ -25,6 +29,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={ <Login />} />
+        <Route path="/forgetpassword" element={ <SendOtp />} />
+        <Route path="/otpverification" element={ <OTPInput />} />
+        <Route path="/recoverpassword" element={ <RecoverPassword />} />
         <Route path="/dashboard/" element={ <DashLayout />}>
           <Route index element={<AllTask />} />
           <Route path="all" element={<NewTask />} />
@@ -32,6 +39,7 @@ function App() {
           <Route path="progress" element={<ProgressTask />} />
           <Route path="completed" element={<CompletedTask />} />
           <Route path="canceled" element={<CencelTask />} />
+          <Route path="updateprofile" element={<UpdateProfile />} />
         </Route>
       </Routes>
     </div>

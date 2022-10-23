@@ -11,13 +11,16 @@ import {
   SuccessToast,
 } from "../HelperTools/RegivalidationTools";
 import { useLoginUserMutation } from "../../Redux/State/UserApiRequest/ApiRequest";
-import { getToken, storeToken } from "../HelperTools/userToken";
+import { getToken,  storeToken, storeUserDetails } from "../HelperTools/userToken";
 import { useDispatch } from "react-redux";
 import { setUserToken } from "../../Redux/State/authSlice";
+// import { setUserInfo } from "../../Redux/State/userSlice";
+import { hideLoader, showLoader } from "../../Redux/State/SettingSlice";
 
 const Login = () => {
-  const [loginUser] = useLoginUserMutation();
-  
+  const dispatch = useDispatch();
+  const [loginUser,{isLoading}] = useLoginUserMutation();
+
   const navigate = useNavigate();
 
   const [newData, setNewData] = useState({
@@ -32,30 +35,44 @@ const Login = () => {
     } else if (IsNotEmail(newData.email)) {
       ErrorToast("Valid Email Required!");
     } else if (newData.password && newData.email) {
+      dispatch(showLoader());
+      // if(isLoading){
+       
+      //   dispatch(showLoader());
+      
+      // }
       const res = await loginUser(newData);
+      console.log(isLoading)
+      
+      dispatch(hideLoader())
       if (res.data) {
         SuccessToast("LoginSuccess!");
-        storeToken(res.data.access_token)
+        storeToken(res.data.access_token);
+        // console.log(res.data.userData[0]);
+      
+        storeUserDetails(res.data.userData[0])
+      
+        // dispatch(setUserInfo(getUserData()))
         navigate("/dashboard");
-      }
-      else if(!res.data){
+      } else if (!res.data) {
         document.getElementById("formId").reset();
-        ErrorToast("Login Failed!  Enter  Correct  Email or Password")
+        ErrorToast("Login Failed!  Enter  Correct  Email or Password");
       }
     }
   };
 
-  // token set in redux store 
-  const dispatch= useDispatch();
-  const token = getToken('token');
+
+  // token set in redux store
+
+  const token = getToken("token");
   useEffect(() => {
-    dispatch(setUserToken({token:token}))
-    
-  }, [dispatch,token])
-  
+    dispatch(setUserToken({ token: token }));
+  }, [dispatch, token]);
 
   return (
     <>
+    
+    
       <Navbar />
       <div className="registration__bg flex items-center justify-center gap-14">
         <div className="w-[30%] bg-transparent">
@@ -64,7 +81,7 @@ const Login = () => {
         <form
           className=" bg-transparent p-12 my-24 rounded-lg w-[50%] 
          items-center justify-center"
-         id="formId"
+          id="formId"
           onSubmit={loginSubmit}
         >
           <h1 className="text-3xl text-left font-bold text-[#0052cc]">
@@ -99,11 +116,21 @@ const Login = () => {
               }
             />
           </div>
+          <p className="text-right mt-4 mb-1">
+            Forget Password?{" "}
+            <Link
+              className="text-[#0052cc] cursor-pointer font-semibold"
+              to="/forgetpassword"
+            >
+              Find Here
+            </Link>
+          </p>
           <input
             type="submit"
             className="singin__btn my-5 w-[100%] px-5 py-3 rounded text-md text-white hover:bg-[#0052cccc] bg-[#0052cc] cursor-pointer"
             value="Sign in"
           />
+         
           <p className="text-center my-8">
             Don't have any account?{" "}
             <Link className="text-[#0052cc] cursor-pointer" to="/registration">

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState={
-    loader:"hidden"
+    loader:"loadingOverlayhide"
 }
 
 export const settingSlice=createSlice({
@@ -9,10 +9,10 @@ export const settingSlice=createSlice({
     initialState,
     reducers:{
         showLoader:(state)=>{
-            state.loader=" "
+            state.loader="loadingOverlayshow"
         },
         hideLoader:(state)=>{
-            state.loader="hidden"
+            state.loader="loadingOverlayhide"
         },
     }
 })

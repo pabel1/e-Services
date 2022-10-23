@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const BaseURL = "https://task-management-api-demo.herokuapp.com/";
+const BaseURL = "http://localhost:5000/";
 export const apiRequest = createApi({
   reducerPath: "apiRequest",
   baseQuery: fetchBaseQuery({
@@ -23,6 +23,56 @@ export const apiRequest = createApi({
         method: "POST",
         body: newData,
         headers: {
+          "Content-type": "application/json;charset=UTF-8",
+        },
+      }),
+    }),
+    updateUserProfile: builder.mutation({
+      query: ({newData,token}) => ({
+        url: "user/profileupdate",
+        method: "POST",
+        body: newData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-type": "application/json;charset=UTF-8",
+        },
+      }),
+    }),
+    forgetPassword: builder.mutation({
+      query: (newData) => ({
+        url: "user/sendotp",
+        method: "POST",
+        body: newData,
+        headers: {
+        
+          "Content-type": "application/json;charset=UTF-8",
+        },
+      }),
+    }),
+    verifyOTP: builder.mutation({
+      query: ({email,otp}) => ({
+        url: "user/verifyotp",
+        method: "PUT",
+        body: {
+          email,
+          otp,
+        },
+        headers: {
+        
+          "Content-type": "application/json;charset=UTF-8",
+        },
+      }),
+    }),
+    recoverPassword: builder.mutation({
+      query: ({email,newPassword}) => ({
+        url: "user/recoverpassword",
+        method: "POST",
+        body: {
+          email,
+          newPassword,
+        },
+        headers: {
+        
           "Content-type": "application/json;charset=UTF-8",
         },
       }),
@@ -60,6 +110,29 @@ export const apiRequest = createApi({
         },
       }),
     }),
+    deleteTaskById: builder.mutation({
+      query: ({_id,token}) => ({
+        url: `task/deletetask/${_id}`,
+        method: "DELETE",
+        // body: _id,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // "Content-type":"application/json;charset=UTF-8"
+        },
+      }),
+    }),
+    updateTaskById: builder.mutation({
+      query: ({_id,token,value}) => ({
+        
+        url: `task/updatetask/${_id}/${value}`,
+        method: "PUT",
+        // body: _id,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // "Content-type":"application/json;charset=UTF-8"
+        },
+      }),
+    }),
   }),
 });
 
@@ -68,5 +141,11 @@ export const {
   useLoginUserMutation,
   useCreateTaskMutation,
   useGetAllTaskQuery,
-  useGetTaskSumByStatusQuery
+  useGetTaskSumByStatusQuery,
+  useDeleteTaskByIdMutation,
+  useUpdateTaskByIdMutation,
+  useUpdateUserProfileMutation,
+  useForgetPasswordMutation,
+  useVerifyOTPMutation,
+  useRecoverPasswordMutation,
 } = apiRequest;

@@ -2,13 +2,36 @@ import React from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { getToken } from "../HelperTools/userToken";
-import { useGetAllTaskQuery } from "../../Redux/State/UserApiRequest/ApiRequest";
+import { useDeleteTaskByIdMutation, useGetAllTaskQuery } from "../../Redux/State/UserApiRequest/ApiRequest";
+import Swal from "sweetalert2";
 const ProgressTask = () => {
   
   const token = getToken();
   const params = "progress";
   const res = useGetAllTaskQuery({ params, token });
   console.log(res.data);
+  const [deleteTaskById] = useDeleteTaskByIdMutation();
+
+  const deleteHandle = (_id, token) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res2 = await deleteTaskById({ _id, token });
+        console.log(res2.data);
+        if (res2.data) {
+          Swal.fire("Deleted!", ` Task ${res2.data.massege}`, "success");
+          res.refetch();
+        }
+      }
+    });
+  };
   return (
     <div>
       <div className=" flex items-center justify-between p-3">
@@ -33,12 +56,12 @@ const ProgressTask = () => {
       </div>
       <div>
         <div>
-          <div className=" grid grid-cols-3 p-3">
+          <div className=" grid grid-cols-3 p-3 gap-3">
             {res.data &&
               res.data.data.map((item,i) => (
                 <div key={i}
-                  className=" bg-[#ffffff] shadow-md h-40 flex flex-col justify-center pl-10 
-                    rounded-lg gap-5 "
+                  className=" bg-[#ffffff] shadow-md  flex flex-col justify-center pl-10 
+                    rounded-lg gap-5 py-3 "
                 >
                   <h1 className=" font-semibold text-[20px] text-[#0052cc] tracking-widest">
                     {item.title}
@@ -50,7 +73,7 @@ const ProgressTask = () => {
                     <button>
                       <BiEditAlt />
                     </button>
-                    <button>
+                    <button onClick={()=>deleteHandle(item._id,token)}>
                       <AiFillDelete />
                     </button>
                     <button

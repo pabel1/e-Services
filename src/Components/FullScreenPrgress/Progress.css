@@ -23,10 +23,10 @@
     z-index: 500000 !important;
     background-color: rgba(255, 255, 255, 0.2);
 }
-.line-Progress .indeterminate {
-    background-color: #0052cc;
+.line__progress .indeterminate {
+    background-color: #cb0c9f;
 }
-.Line-Progress .indeterminate:before {
+.line__progress .indeterminate:before {
        z-index: -100 !important;
         height: 3px;
         content: "";
@@ -39,7 +39,7 @@
         -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
         animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }
-.Line-Progress .indeterminate:after {
+.line__progress .indeterminate:after {
         z-index: -100 !important;
         height: 3px;
         content: "";
@@ -118,4 +118,3 @@
         right: -8%;
     }
 }
-
