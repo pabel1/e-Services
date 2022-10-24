@@ -26,7 +26,7 @@ const CompletedTask = () => {
         console.log(res2.data);
         if (res2.data) {
           Swal.fire("Deleted!", ` Task ${res2.data.massege}`, "success");
-          res.refetch();
+          // res.refetch();
         }
       }
     });

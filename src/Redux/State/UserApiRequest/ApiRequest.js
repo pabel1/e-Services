@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const BaseURL = "http://localhost:5000/";
+const BaseURL = "https://task-management-api-demo.herokuapp.com/";
 export const apiRequest = createApi({
   reducerPath: "apiRequest",
   baseQuery: fetchBaseQuery({
     baseUrl: BaseURL,
   }),
+  tagTypes:['user','task'],
   endpoints: (builder) => ({
     createUser: builder.mutation({
       query: (newData) => ({
@@ -16,6 +17,7 @@ export const apiRequest = createApi({
           "Content-type": "application/json;charset=UTF-8",
         },
       }),
+      invalidatesTags:['user'],
     }),
     loginUser: builder.mutation({
       query: (newData) => ({
@@ -26,6 +28,7 @@ export const apiRequest = createApi({
           "Content-type": "application/json;charset=UTF-8",
         },
       }),
+      invalidatesTags:['user'],
     }),
     updateUserProfile: builder.mutation({
       query: ({newData,token}) => ({
@@ -37,6 +40,7 @@ export const apiRequest = createApi({
           "Content-type": "application/json;charset=UTF-8",
         },
       }),
+      invalidatesTags:['user'],
     }),
     forgetPassword: builder.mutation({
       query: (newData) => ({
@@ -48,6 +52,7 @@ export const apiRequest = createApi({
           "Content-type": "application/json;charset=UTF-8",
         },
       }),
+      invalidatesTags:['user'],
     }),
     verifyOTP: builder.mutation({
       query: ({email,otp}) => ({
@@ -62,6 +67,7 @@ export const apiRequest = createApi({
           "Content-type": "application/json;charset=UTF-8",
         },
       }),
+      invalidatesTags:['user'],
     }),
     recoverPassword: builder.mutation({
       query: ({email,newPassword}) => ({
@@ -76,6 +82,7 @@ export const apiRequest = createApi({
           "Content-type": "application/json;charset=UTF-8",
         },
       }),
+      invalidatesTags:['user'],
     }),
     createTask: builder.mutation({
       query: ({newData, token}) => ({
@@ -87,6 +94,7 @@ export const apiRequest = createApi({
           // "Content-type":"application/json;charset=UTF-8"
         },
       }),
+      invalidatesTags:['task'],
     }),
     getAllTask: builder.query({
       query: ({params,token}) => ({
@@ -98,6 +106,7 @@ export const apiRequest = createApi({
           // "Content-type":"application/json;charset=UTF-8"
         },
       }),
+      providesTags:['task']
     }),
     getTaskSumByStatus: builder.query({
       query: (token) => ({
@@ -109,6 +118,7 @@ export const apiRequest = createApi({
           // "Content-type":"application/json;charset=UTF-8"
         },
       }),
+      providesTags:['task']
     }),
     deleteTaskById: builder.mutation({
       query: ({_id,token}) => ({
@@ -120,6 +130,7 @@ export const apiRequest = createApi({
           // "Content-type":"application/json;charset=UTF-8"
         },
       }),
+      invalidatesTags:['task'],
     }),
     updateTaskById: builder.mutation({
       query: ({_id,token,value}) => ({
@@ -132,6 +143,7 @@ export const apiRequest = createApi({
           // "Content-type":"application/json;charset=UTF-8"
         },
       }),
+      invalidatesTags:['task'],
     }),
   }),
 });

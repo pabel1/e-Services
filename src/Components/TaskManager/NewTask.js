@@ -65,7 +65,7 @@ const NewTask = () => {
         
         if (res2.data) {
           Swal.fire("Updated!", ` Task ${res2.data.massege}`, "success");
-          res.refetch();
+          // res.refetch();
         }
       // if (result.isConfirmed) {
         

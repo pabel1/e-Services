@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useCreateTaskMutation,
-  useGetTaskSumByStatusQuery,
+
 } from "../../Redux/State/UserApiRequest/ApiRequest";
 import FullScreenLoader from "../FullScreenPrgress/FullScreenLoader";
 import {
@@ -17,7 +17,7 @@ const CreateTask = () => {
   const navigate = useNavigate();
   const [createTask] = useCreateTaskMutation();
   const token = getToken();
-  const gettask = useGetTaskSumByStatusQuery(token);
+  
   // console.log(token);
   // const {token}=useSelector(state=>state.auth)
 
@@ -42,7 +42,7 @@ const CreateTask = () => {
         if (res.data) {
           SuccessToast("Task Created Success!");
           navigate("/dashboard");
-          gettask.refetch();
+         
         } else if (!res.data) {
           ErrorToast("Something Wrong!");
         }
